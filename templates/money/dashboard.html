@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | Seedcast{% endblock %}
+{% block content %}
+<div class="page-heading">
+  <div><p class="eyebrow">Dashboard</p><h1>Hi {{ user.username }}, here is your money.</h1></div>
+  <a class="button" href="{% url 'money:budget_create' %}">Add monthly snapshot</a>
+</div>
+{% if latest_budget %}
+  <section class="card-grid">
+    <article class="card highlight"><h2>Monthly surplus</h2><p class="metric">${{ latest_budget.surplus|floatformat:2 }}</p></article>
+    <article class="card"><h2>Emergency fund</h2><p class="metric">{{ profile.emergency_fund_months }} months</p></article>
+    <article class="card"><h2>Risk comfort</h2><p class="metric">{{ profile.get_risk_comfort_display }}</p></article>
+  </section>
+  <section class="form-card">
+    <h2>Recent snapshots</h2>
+    <table>
+      <thead><tr><th>Month</th><th>Income</th><th>Expenses</th><th>Surplus</th></tr></thead>
+      <tbody>
+      {% for budget in budgets %}
+        <tr>
+          <td>{{ budget.month|date:"F Y" }}</td>
+          <td>${{ budget.income|floatformat:2 }}</td>
+          <td>${{ budget.fixed_expenses|add:budget.flexible_expenses|add:budget.debt_payments|floatformat:2 }}</td>
+          <td>${{ budget.surplus|floatformat:2 }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </section>
+{% else %}
+  <section class="empty-state"><h2>No snapshot yet</h2><p>Add income and expenses to calculate your monthly surplus.</p><a class="button" href="{% url 'money:budget_create' %}">Add snapshot</a></section>
+{% endif %}
+<p class="disclaimer">Educational simulations only. Not investment advice.</p>
+{% endblock %}
+

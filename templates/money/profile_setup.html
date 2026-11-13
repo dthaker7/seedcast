@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Profile | Seedcast{% endblock %}
+{% block content %}
+<section class="form-card">
+  <p class="eyebrow">Profile setup</p>
+  <h1>Your starting point</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="button" type="submit">Save and add snapshot</button>
+  </form>
+</section>
+{% endblock %}
+

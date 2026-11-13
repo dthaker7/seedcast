@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Seedcast | Understand your leftover money{% endblock %}
+{% block content %}
+<section class="hero">
+  <p class="eyebrow">Money first. Markets second.</p>
+  <h1>Turn your leftover money into a plan you understand.</h1>
+  <p>See your monthly surplus, build a simple allocation, and explore forecasts that show uncertainty.</p>
+  <div class="actions">
+    <a class="button" href="{% url 'signup' %}">Get started</a>
+    <a class="button secondary" href="{% url 'login' %}">Log in</a>
+  </div>
+</section>
+<section class="card-grid" aria-label="Seedcast value">
+  <article class="card"><h2>Know your surplus</h2><p>Start with income and expenses.</p></article>
+  <article class="card"><h2>See your Seed Split</h2><p>Turn the surplus into understandable buckets.</p></article>
+  <article class="card"><h2>Forecasts with honesty</h2><p>Use ranges and confidence, not buy or sell labels.</p></article>
+</section>
+<p class="disclaimer">Educational simulations only. Not investment advice.</p>
+{% endblock %}
+
