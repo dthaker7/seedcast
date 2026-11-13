@@ -70,9 +70,14 @@ Avoid committing `.env`, API keys, local databases, model weights, or large data
 - [x] Initial tests and reproducible setup
 - [ ] Market models, sample data, explorer, and JSON endpoint
 - [ ] AI technique, inputs/outputs, Django integration path, and feasibility evidence
-- [ ] One-page updated scope or explicit reference to unchanged P2-A2 scope
-- [ ] Development status table with owners and dates
-- [ ] Push repository and confirm the instructor can access it
+- [x] One-page updated scope or explicit reference to unchanged P2-A2 scope
+- [x] Development status table with owners and dates
+- [x] Push public repository and confirm the instructor can access it
 
-See [ROADMAP.md](ROADMAP.md) and [README_AI.md](README_AI.md) for the detailed plan.
+See [ROADMAP.md](ROADMAP.md), [README_AI.md](README_AI.md), and the
+[assignment compliance matrix](docs/ASSIGNMENT_CHECKLIST.md) for the detailed plan and evidence status.
+
+The current first-draft scope is documented in
+[docs/FIRST_DRAFT_SCOPE.md](docs/FIRST_DRAFT_SCOPE.md). Evaluation results must be recorded from actual runs using
+[docs/EVALUATION_PLAN.md](docs/EVALUATION_PLAN.md); placeholders must never be presented as completed results.
 

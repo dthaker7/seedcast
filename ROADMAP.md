@@ -11,7 +11,7 @@ The working deadline below follows the team's stated Monday due date. The provid
 | AI integration | Architecture documented; measured feasibility experiment pending | Dhruv | Nov. 15 |
 | Evaluation and testing | Money workflow tests added; five final-product tests pending | Suriyavardhan | Nov. 16 |
 | Deployment | Local run path documented; hosting not required for first draft | Dhruv | Nov. 16 |
-| Documentation | README and AI plan started; scope update and screenshots pending | Parul | Nov. 16 |
+| Documentation | README, scope update, AI plan, and compliance matrix added; screenshots pending | Parul | Nov. 16 |
 
 ## Final ownership through December 8
 
