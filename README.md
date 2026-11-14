@@ -16,6 +16,12 @@ The current prototype provides a complete database-backed workflow:
 
 This meets the first-draft foundation requirement with authentication, protected routes, two meaningful related models, forms, validation, views, reusable templates, migrations, and a visible database result.
 
+## Money workflow rules (Parul)
+
+- **Validation:** emergency-fund months must be 0 to 60; snapshot amounts cannot be negative; a snapshot needs at least one non-zero amount; months later than the current month are rejected; a second snapshot for the same month shows a form error instead of a database error.
+- **User isolation:** the logged-in user's profile is always taken from the session, never from POST data. Tests in `money/tests.py` (`UserIsolationTests`) prove one user cannot see or write another user's records.
+- **Seed Split (initial rules):** `money/allocation.py` splits a positive monthly surplus into an emergency fund (60% under 3 months saved, 30% from 3 to 6 months, 0% at 6+), extra debt payoff (20% when the budget has debt payments), and paper-money practice (the remainder). Buckets always sum exactly to the surplus. The dashboard shows the split with the reason for each bucket.
+
 ## Local setup
 
 ```powershell

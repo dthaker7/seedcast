@@ -11,6 +11,25 @@
     <article class="card"><h2>Emergency fund</h2><p class="metric">{{ profile.emergency_fund_months }} months</p></article>
     <article class="card"><h2>Risk comfort</h2><p class="metric">{{ profile.get_risk_comfort_display }}</p></article>
   </section>
+  <section class="form-card" aria-labelledby="seed-split-heading">
+    <h2 id="seed-split-heading">Seed Split for {{ latest_budget.month|date:"F Y" }}</h2>
+    {% if seed_split.has_split %}
+      <table>
+        <thead><tr><th>Bucket</th><th>Share</th><th>Amount</th><th>Why</th></tr></thead>
+        <tbody>
+        {% for bucket in seed_split.buckets %}
+          <tr>
+            <td>{{ bucket.label }}</td>
+            <td>{% widthratio bucket.share 1 100 %}%</td>
+            <td>${{ bucket.amount|floatformat:2 }}</td>
+            <td>{{ bucket.reason }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
+    <p class="disclaimer">{{ seed_split.message }}</p>
+  </section>
   <section class="form-card">
     <h2>Recent snapshots</h2>
     <table>

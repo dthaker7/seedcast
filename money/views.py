@@ -3,6 +3,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 
+from .allocation import seed_split_for_budget
 from .forms import FinancialProfileForm, MonthlyBudgetForm, SignUpForm
 from .models import FinancialProfile
 
@@ -43,15 +44,13 @@ def profile_setup(request):
 def budget_create(request):
     profile, _ = FinancialProfile.objects.get_or_create(user=request.user)
     if request.method == "POST":
-        form = MonthlyBudgetForm(request.POST)
+        form = MonthlyBudgetForm(request.POST, profile=profile)
         if form.is_valid():
-            budget = form.save(commit=False)
-            budget.profile = profile
-            budget.save()
+            form.save()
             messages.success(request, "Money snapshot saved.")
             return redirect("money:dashboard")
     else:
-        form = MonthlyBudgetForm()
+        form = MonthlyBudgetForm(profile=profile)
     return render(request, "money/budget_form.html", {"form": form})
 
 
@@ -60,9 +59,15 @@ def dashboard(request):
     profile, _ = FinancialProfile.objects.get_or_create(user=request.user)
     budgets = profile.monthly_budgets.all()
     latest_budget = budgets.first()
+    seed_split = seed_split_for_budget(profile, latest_budget) if latest_budget else None
     return render(
         request,
         "money/dashboard.html",
-        {"profile": profile, "budgets": budgets[:6], "latest_budget": latest_budget},
+        {
+            "profile": profile,
+            "budgets": budgets[:6],
+            "latest_budget": latest_budget,
+            "seed_split": seed_split,
+        },
     )
 
