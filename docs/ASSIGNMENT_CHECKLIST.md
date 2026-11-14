@@ -45,8 +45,8 @@ Status values:
 | Views, templates, inheritance, URLs | In progress | All | Every feature slice includes routes and reusable templates |
 | Forms, validation, processing, errors | In progress | All | Profile, budget, allocation, goal, and copilot inputs tested |
 | Authentication, protected routes, user isolation | Complete | Parul | `money/tests.py` `UserIsolationTests`: other users' snapshots hidden, posted profile ids ignored, profile edits scoped to the signed-in user, anonymous users redirected to login |
-| Meaningful JSON/external API | Planned | Suriyavardhan | Forecast/chart JSON endpoint or cached yfinance integration |
-| Data-oriented feature | Planned | Suriyavardhan | Cast Explorer search/filtering and visualizations |
+| Meaningful JSON/external API | In progress | Suriyavardhan | Forecast/chart JSON endpoint or cached yfinance integration |
+| Data-oriented feature | In progress | Suriyavardhan | Cast Explorer search/filtering and visualizations |
 
 ## Part 3: AI integration
 

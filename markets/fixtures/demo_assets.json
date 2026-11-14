@@ -1,0 +1,142 @@
+[
+  {
+    "model": "markets.marketasset",
+    "pk": 1,
+    "fields": {
+      "ticker": "SPY",
+      "name": "SPDR S&P 500 ETF Trust",
+      "asset_type": "etf",
+      "sector": "Broad US market",
+      "description": "Tracks the S&P 500, about 500 large US companies.",
+      "is_active": true,
+      "created_at": "2026-11-13T00:00:00Z",
+      "updated_at": "2026-11-13T00:00:00Z"
+    }
+  },
+  {
+    "model": "markets.marketasset",
+    "pk": 2,
+    "fields": {
+      "ticker": "VTI",
+      "name": "Vanguard Total Stock Market ETF",
+      "asset_type": "etf",
+      "sector": "Broad US market",
+      "description": "Holds nearly the entire US stock market, large and small companies.",
+      "is_active": true,
+      "created_at": "2026-11-13T00:00:00Z",
+      "updated_at": "2026-11-13T00:00:00Z"
+    }
+  },
+  {
+    "model": "markets.marketasset",
+    "pk": 3,
+    "fields": {
+      "ticker": "VXUS",
+      "name": "Vanguard Total International Stock ETF",
+      "asset_type": "etf",
+      "sector": "International",
+      "description": "Holds stocks from developed and emerging markets outside the US.",
+      "is_active": true,
+      "created_at": "2026-11-13T00:00:00Z",
+      "updated_at": "2026-11-13T00:00:00Z"
+    }
+  },
+  {
+    "model": "markets.marketasset",
+    "pk": 4,
+    "fields": {
+      "ticker": "BND",
+      "name": "Vanguard Total Bond Market ETF",
+      "asset_type": "etf",
+      "sector": "Bonds",
+      "description": "Holds investment-grade US bonds; usually less volatile than stocks.",
+      "is_active": true,
+      "created_at": "2026-11-13T00:00:00Z",
+      "updated_at": "2026-11-13T00:00:00Z"
+    }
+  },
+  {
+    "model": "markets.marketasset",
+    "pk": 5,
+    "fields": {
+      "ticker": "QQQ",
+      "name": "Invesco QQQ Trust",
+      "asset_type": "etf",
+      "sector": "Technology-heavy",
+      "description": "Tracks the Nasdaq-100, weighted toward large technology companies.",
+      "is_active": true,
+      "created_at": "2026-11-13T00:00:00Z",
+      "updated_at": "2026-11-13T00:00:00Z"
+    }
+  },
+  {
+    "model": "markets.marketasset",
+    "pk": 6,
+    "fields": {
+      "ticker": "AAPL",
+      "name": "Apple Inc.",
+      "asset_type": "stock",
+      "sector": "Technology",
+      "description": "Consumer electronics, software and services company.",
+      "is_active": true,
+      "created_at": "2026-11-13T00:00:00Z",
+      "updated_at": "2026-11-13T00:00:00Z"
+    }
+  },
+  {
+    "model": "markets.marketasset",
+    "pk": 7,
+    "fields": {
+      "ticker": "MSFT",
+      "name": "Microsoft Corporation",
+      "asset_type": "stock",
+      "sector": "Technology",
+      "description": "Software, cloud computing and productivity tools company.",
+      "is_active": true,
+      "created_at": "2026-11-13T00:00:00Z",
+      "updated_at": "2026-11-13T00:00:00Z"
+    }
+  },
+  {
+    "model": "markets.marketasset",
+    "pk": 8,
+    "fields": {
+      "ticker": "NVDA",
+      "name": "NVIDIA Corporation",
+      "asset_type": "stock",
+      "sector": "Technology",
+      "description": "Designs graphics processors and AI computing hardware.",
+      "is_active": true,
+      "created_at": "2026-11-13T00:00:00Z",
+      "updated_at": "2026-11-13T00:00:00Z"
+    }
+  },
+  {
+    "model": "markets.marketasset",
+    "pk": 9,
+    "fields": {
+      "ticker": "JNJ",
+      "name": "Johnson & Johnson",
+      "asset_type": "stock",
+      "sector": "Health care",
+      "description": "Pharmaceuticals and medical technology company.",
+      "is_active": true,
+      "created_at": "2026-11-13T00:00:00Z",
+      "updated_at": "2026-11-13T00:00:00Z"
+    }
+  },
+  {
+    "model": "markets.marketasset",
+    "pk": 10,
+    "fields": {
+      "ticker": "KO",
+      "name": "The Coca-Cola Company",
+      "asset_type": "stock",
+      "sector": "Consumer staples",
+      "description": "Beverage company with brands sold worldwide.",
+      "is_active": true,
+      "created_at": "2026-11-13T00:00:00Z",
+      "updated_at": "2026-11-13T00:00:00Z"
+    }
+  }
+]

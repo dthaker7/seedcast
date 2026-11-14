@@ -47,3 +47,10 @@ th, td { padding: .75rem; text-align: left; border-bottom: 1px solid var(--line)
   nav { gap: .7rem; font-size: .9rem; }
 }
 
+.form-card.wide { max-width: none; }
+.filter-bar { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; margin-bottom: 1.5rem; }
+.filter-bar input, .filter-bar select { width: auto; min-width: 12rem; }
+@media (max-width: 720px) {
+  .filter-bar input, .filter-bar select { width: 100%; }
+  .form-card.wide { overflow-x: auto; }
+}

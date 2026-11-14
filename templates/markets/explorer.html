@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load market_format %}
+{% block title %}Cast Explorer | Seedcast{% endblock %}
+{% block content %}
+<div class="page-heading">
+  <div><p class="eyebrow">Cast Explorer</p><h1>Explore assets and saved forecasts</h1></div>
+</div>
+<form method="get" class="filter-bar" role="search">
+  <label for="q">Search</label>
+  <input id="q" type="search" name="q" value="{{ query }}" placeholder="Ticker or name, e.g. SPY">
+  <label for="type">Type</label>
+  <select id="type" name="type">
+    <option value="">All types</option>
+    {% for value, label in asset_types %}
+      <option value="{{ value }}"{% if value == asset_type %} selected{% endif %}>{{ label }}</option>
+    {% endfor %}
+  </select>
+  <button class="button" type="submit">Filter</button>
+  {% if query or asset_type %}<a class="button secondary" href="{% url 'markets:explorer' %}">Clear</a>{% endif %}
+</form>
+{% if assets %}
+  <section class="form-card wide">
+    <table>
+      <thead><tr><th>Ticker</th><th>Name</th><th>Type</th><th>Latest close</th><th>Expected return</th><th>P10 to P90</th></tr></thead>
+      <tbody>
+      {% for asset in assets %}
+        {% with forecast=asset.latest_forecast price=asset.latest_price %}
+        <tr>
+          <td><a href="{% url 'markets:asset_detail' asset.ticker %}"><strong>{{ asset.ticker }}</strong></a></td>
+          <td>{{ asset.name }}</td>
+          <td>{{ asset.get_asset_type_display }}</td>
+          <td>{% if price %}${{ price.close|floatformat:2 }} <span class="helptext">({{ price.date|date:"M j" }})</span>{% else %}<span class="helptext">No price data</span>{% endif %}</td>
+          {% if forecast and forecast.is_computed %}
+            <td>{{ forecast.expected_return|pct }}</td>
+            <td>{{ forecast.p10_return|pct }} to {{ forecast.p90_return|pct }}</td>
+          {% else %}
+            <td colspan="2"><span class="helptext">Forecast not computed yet</span></td>
+          {% endif %}
+        </tr>
+        {% endwith %}
+      {% endfor %}
+      </tbody>
+    </table>
+  </section>
+{% else %}
+  <section class="empty-state">
+    <h2>No assets match</h2>
+    {% if query or asset_type %}<p>Try a different search or clear the filters.</p>
+    {% else %}<p>No market data loaded yet. Run <code>python manage.py loaddata demo_assets</code>.</p>{% endif %}
+  </section>
+{% endif %}
+<p class="disclaimer">{{ disclaimer }} JSON: <a href="{% url 'markets:api_assets' %}">/markets/api/assets/</a></p>
+{% endblock %}

@@ -7,7 +7,7 @@ The working deadline below follows the team's stated Monday due date. The provid
 | Task | Current status | Responsible member | Expected completion |
 | --- | --- | --- | --- |
 | Django core features | Money workflow extended with validation, user-isolation tests, and initial Seed Split rules on `feature/money-profile` (review pending) | Parul, with shared setup by Dhruv | Nov. 14 |
-| Database and APIs | Money models complete; market models and JSON endpoint pending | Suriyavardhan | Nov. 15 |
+| Database and APIs | Money models complete; market models, demo assets, Cast Explorer, and forecast/asset JSON endpoints on `feature/markets-explorer` (review pending) | Suriyavardhan | Nov. 15 |
 | AI integration | Architecture documented; measured feasibility experiment pending | Dhruv | Nov. 15 |
 | Evaluation and testing | Money workflow tests added; five final-product tests pending | Suriyavardhan | Nov. 16 |
 | Deployment | Local run path documented; hosting not required for first draft | Dhruv | Nov. 16 |

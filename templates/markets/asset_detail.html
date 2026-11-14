@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load market_format %}
+{% block title %}{{ asset.ticker }} | Seedcast{% endblock %}
+{% block content %}
+<div class="page-heading">
+  <div><p class="eyebrow">{{ asset.get_asset_type_display }}{% if asset.sector %} · {{ asset.sector }}{% endif %}</p><h1>{{ asset.ticker }}: {{ asset.name }}</h1></div>
+  <a class="button secondary" href="{% url 'markets:explorer' %}">Back to explorer</a>
+</div>
+{% if asset.description %}<p>{{ asset.description }}</p>{% endif %}
+{% if forecast and forecast.is_computed %}
+  <section class="card-grid">
+    <article class="card highlight"><h2>Expected return ({{ forecast.horizon_trading_days }} trading days)</h2><p class="metric">{{ forecast.expected_return|pct }}</p></article>
+    <article class="card"><h2>Likely range (P10 to P90)</h2><p class="metric">{{ forecast.p10_return|pct }} to {{ forecast.p90_return|pct }}</p></article>
+    <article class="card"><h2>Chance of a gain</h2><p class="metric">{{ forecast.probability_positive|pct:0 }}</p></article>
+  </section>
+  <p class="helptext">As of {{ forecast.as_of_date }} · model {{ forecast.model_version|default:"unknown" }}{% if forecast.is_stale %} · <strong>This forecast is stale.</strong>{% endif %}</p>
+{% else %}
+  <section class="empty-state"><h2>Forecast not computed yet</h2><p>Seedcast only shows forecasts produced by the model. Nothing is estimated or filled in here.</p></section>
+{% endif %}
+<section class="form-card wide">
+  <h2>Recent closing prices</h2>
+  {% if prices %}
+    <table>
+      <thead><tr><th>Date</th><th>Close</th><th>Source</th></tr></thead>
+      <tbody>{% for bar in prices %}<tr><td>{{ bar.date }}</td><td>${{ bar.close|floatformat:2 }}</td><td>{{ bar.source }}</td></tr>{% endfor %}</tbody>
+    </table>
+  {% else %}
+    <p class="helptext">No cached price data for this asset yet.</p>
+  {% endif %}
+</section>
+<p class="disclaimer">{{ disclaimer }} JSON: <a href="{% url 'markets:api_forecast' asset.ticker %}">/markets/api/forecasts/{{ asset.ticker }}/</a></p>
+{% endblock %}
