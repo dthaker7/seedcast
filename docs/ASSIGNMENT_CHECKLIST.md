@@ -33,7 +33,7 @@ Status values:
 | Name, problem, target users, value, features | Complete | Parul | Scope document remains consistent with the product |
 | At least three meaningful features | In progress | All | Money, markets, and goals/copilot workflows work end to end |
 | Clear navigation and consistent design | In progress | Dhruv | Shared base template; five-item navigation; responsive review |
-| Functional forms and user feedback | In progress | Parul | Validation, errors, success messages, empty states |
+| Functional forms and user feedback | In progress | Parul | Validation, errors, success messages, empty states. Money forms done and tested (`ProfileValidationTests`, `BudgetValidationTests`); remaining feature forms pending |
 | Complete end-to-end workflow | In progress | All | Signup through plan, forecast exploration, and goal/copilot explanation |
 | Product differentiation | Complete | Parul | Money-first flow and uncertainty/report-card explanation in scope/README |
 
@@ -44,7 +44,7 @@ Status values:
 | Meaningful models, relationships, migrations, CRUD | In progress | All | Each feature app owns models and migrations; create/read/update/delete where relevant |
 | Views, templates, inheritance, URLs | In progress | All | Every feature slice includes routes and reusable templates |
 | Forms, validation, processing, errors | In progress | All | Profile, budget, allocation, goal, and copilot inputs tested |
-| Authentication, protected routes, user isolation | In progress | Parul | Tests prove one user cannot access another user's records |
+| Authentication, protected routes, user isolation | Complete | Parul | `money/tests.py` `UserIsolationTests`: other users' snapshots hidden, posted profile ids ignored, profile edits scoped to the signed-in user, anonymous users redirected to login |
 | Meaningful JSON/external API | Planned | Suriyavardhan | Forecast/chart JSON endpoint or cached yfinance integration |
 | Data-oriented feature | Planned | Suriyavardhan | Cast Explorer search/filtering and visualizations |
 

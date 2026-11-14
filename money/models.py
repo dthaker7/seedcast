@@ -1,7 +1,7 @@
 from decimal import Decimal
 
 from django.conf import settings
-from django.core.validators import MinValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 
@@ -20,7 +20,8 @@ class FinancialProfile(models.Model):
         max_digits=5,
         decimal_places=1,
         default=Decimal("0.0"),
-        validators=[MinValueValidator(Decimal("0.0"))],
+        validators=[MinValueValidator(Decimal("0.0")), MaxValueValidator(Decimal("60.0"))],
+        help_text="Months of essential expenses you already have saved (0 to 60).",
     )
     risk_comfort = models.CharField(
         max_length=20,
