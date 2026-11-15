@@ -21,7 +21,7 @@ Status values:
 | Database-backed visible workflow | Complete | Parul | Budget submission redirects to a dashboard result |
 | Initial AI feature and technique identified | Complete | Dhruv | `README_AI.md` |
 | AI input, output, and Django interaction documented | Complete | Dhruv | `README_AI.md` workflow section |
-| Initial experiment or feasibility evidence | Planned | Dhruv | Reproducible command/notebook output with an actual metric and runtime |
+| Initial experiment or feasibility evidence | Complete | Dhruv | Frozen dataset, repeatable command, tests, actual metrics, and runtime in `README_AI.md` |
 | Development status and roadmap | Complete | Shared | `ROADMAP.md` |
 | Reproducible README | Complete | Shared | `README.md`, `.env.example`, `requirements.txt` |
 | Instructor-accessible GitHub repository | Complete | Dhruv | Public `dthaker7/seedcast` repository |

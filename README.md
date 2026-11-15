@@ -91,7 +91,7 @@ Avoid committing `.env`, API keys, local databases, model weights, or large data
 - [x] Form -> view -> database -> visible result workflow
 - [x] Initial tests and reproducible setup
 - [x] Market models, sample data, explorer, and JSON endpoint
-- [ ] AI technique, inputs/outputs, Django integration path, and feasibility evidence
+- [x] AI technique, inputs/outputs, Django integration path, and feasibility evidence
 - [x] One-page updated scope or explicit reference to unchanged P2-A2 scope
 - [x] Development status table with owners and dates
 - [x] Push public repository and confirm the instructor can access it
