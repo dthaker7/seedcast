@@ -2,7 +2,7 @@
 
 ## Monday, November 16, 2026 milestone
 
-The working deadline below follows the team's stated Monday due date. The provided assignment text lists November 9, so the team should confirm the Canvas deadline or extension before submission.
+The first-draft milestone was completed for the team's confirmed Monday, November 16, 2026 deadline.
 
 | Task | Current status | Responsible member | Expected completion |
 | --- | --- | --- | --- |
@@ -11,7 +11,7 @@ The working deadline below follows the team's stated Monday due date. The provid
 | AI integration | Architecture documented; frozen-data feasibility experiment records actual baseline/model metrics and runtime | Dhruv | Complete Nov. 15 |
 | Evaluation and testing | Money, markets, and AI automated tests pass; five final-product evaluation cases remain for the final submission | Suriyavardhan | First-draft evidence complete Nov. 15 |
 | Deployment | Local run path documented; hosting not required for first draft | Dhruv | Nov. 16 |
-| Documentation | README, scope update, AI plan, and compliance matrix added; screenshots pending | Parul | Nov. 16 |
+| Documentation | README, scope update, AI plan, compliance matrix, and four money-workflow screenshots added | Parul | Complete Nov. 16 |
 
 ## Final ownership through December 8
 
