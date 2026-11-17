@@ -59,6 +59,17 @@ class ExperimentResult:
         return asdict(self)
 
 
+@dataclass(frozen=True)
+class ForecastPrediction:
+    as_of_date: str
+    horizon_trading_days: int
+    expected_return: float
+    p10_return: float
+    p90_return: float
+    probability_positive: float
+    model_version: str
+
+
 def file_sha256(path: Path) -> str:
     """Hash text content with canonical LF endings for cross-platform stability."""
     content = path.read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
@@ -116,6 +127,77 @@ def build_supervised_dataset(market_data: pd.DataFrame) -> pd.DataFrame:
     return supervised
 
 
+def latest_feature_row(market_data: pd.DataFrame) -> pd.DataFrame:
+    """Build one inference row using only information available on its date."""
+    frame = market_data.copy()
+    close = frame["adjusted_close"]
+    volume = frame["volume"]
+    daily_return = close.pct_change()
+    frame["daily_return"] = daily_return
+    frame["momentum_5"] = close.pct_change(5)
+    frame["momentum_21"] = close.pct_change(FORECAST_HORIZON_DAYS)
+    frame["volatility_21"] = daily_return.rolling(FORECAST_HORIZON_DAYS).std()
+    frame["ma_gap_10_50"] = close.rolling(10).mean() / close.rolling(50).mean() - 1
+    frame["volume_ratio_5_21"] = (
+        volume.rolling(5).mean() / volume.rolling(FORECAST_HORIZON_DAYS).mean() - 1
+    )
+    latest = frame.dropna(subset=list(FEATURE_COLUMNS)).tail(1)
+    if latest.empty:
+        raise ValueError("Dataset does not contain enough history for inference.")
+    return latest
+
+
+def _gradient_boosting_model(*, loss="squared_error", alpha=0.9):
+    return GradientBoostingRegressor(
+        loss=loss,
+        alpha=alpha,
+        n_estimators=100,
+        learning_rate=0.05,
+        max_depth=2,
+        min_samples_leaf=8,
+        random_state=RANDOM_STATE,
+    )
+
+
+def predict_latest_return(dataset_path: Path) -> ForecastPrediction:
+    """Train on all labeled rows and forecast the latest frozen observation.
+
+    Quantile models provide the displayed P10/P90 range. The probability of a
+    positive return is an empirical residual estimate, not a calibrated
+    probability; this limitation is surfaced in the documentation and UI.
+    """
+    market_data = load_frozen_market_data(dataset_path)
+    supervised = build_supervised_dataset(market_data)
+    inference = latest_feature_row(market_data)
+    x_train = supervised.loc[:, FEATURE_COLUMNS]
+    y_train = supervised["target_return_21d"]
+    x_latest = inference.loc[:, FEATURE_COLUMNS]
+
+    point_model = _gradient_boosting_model()
+    lower_model = _gradient_boosting_model(loss="quantile", alpha=0.10)
+    upper_model = _gradient_boosting_model(loss="quantile", alpha=0.90)
+    point_model.fit(x_train, y_train)
+    lower_model.fit(x_train, y_train)
+    upper_model.fit(x_train, y_train)
+
+    expected = float(point_model.predict(x_latest)[0])
+    lower = float(lower_model.predict(x_latest)[0])
+    upper = float(upper_model.predict(x_latest)[0])
+    lower, upper = sorted((lower, upper))
+    residuals = y_train.to_numpy() - point_model.predict(x_train)
+    probability_positive = float(np.mean(expected + residuals > 0))
+
+    return ForecastPrediction(
+        as_of_date=inference.iloc[0]["Date"].date().isoformat(),
+        horizon_trading_days=FORECAST_HORIZON_DAYS,
+        expected_return=expected,
+        p10_return=lower,
+        p90_return=upper,
+        probability_positive=probability_positive,
+        model_version="gbr-v1-frozen-aapl",
+    )
+
+
 def time_ordered_split(
     supervised: pd.DataFrame,
     train_fraction: float = TRAIN_FRACTION,
@@ -157,14 +239,7 @@ def run_experiment(dataset_path: Path) -> ExperimentResult:
     baseline_value = float(y_train.mean())
     baseline_predictions = np.full(len(y_test), baseline_value)
 
-    model = GradientBoostingRegressor(
-        loss="squared_error",
-        n_estimators=100,
-        learning_rate=0.05,
-        max_depth=2,
-        min_samples_leaf=8,
-        random_state=RANDOM_STATE,
-    )
+    model = _gradient_boosting_model()
     model.fit(x_train, y_train)
     model_predictions = model.predict(x_test)
 

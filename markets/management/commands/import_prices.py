@@ -48,6 +48,8 @@ class Command(BaseCommand):
                         raise ValueError("close must be positive")
                     volume_raw = (row.get("volume") or "").strip()
                     volume = int(float(volume_raw)) if volume_raw else None
+                    if volume is not None and volume < 0:
+                        raise ValueError("volume must not be negative")
                 except (ValueError, InvalidOperation) as error:
                     skipped += 1
                     self.stderr.write(f"Line {line_number}: skipped ({error})")

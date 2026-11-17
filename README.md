@@ -32,11 +32,11 @@ python -m venv .venv
 python -m pip install -r requirements.txt
 Copy-Item .env.example .env
 python manage.py migrate
-python manage.py loaddata demo_assets
+python manage.py load_demo_market_data
 python manage.py runserver
 ```
 
-Open `http://127.0.0.1:8000/`, create an account, and add a monthly snapshot.
+Open `http://127.0.0.1:8000/`, create an account, add a monthly snapshot, and visit `/markets/`. The demo command loads 506 frozen AAPL prices, trains the model offline, and saves one real forecast for the Cast Explorer.
 
 Run checks and tests:
 
@@ -64,13 +64,13 @@ The `markets` app owns curated assets, cached prices and saved forecasts.
 | Piece | Where | Notes |
 | --- | --- | --- |
 | Models | `markets/models.py` | `MarketAsset` 1-to-many `PriceBar` and `Forecast`. `Forecast` follows the TEAM_SETUP.md contract; returns are decimals (0.01 = 1%) and `null` means not computed. |
-| Sample data | `markets/fixtures/demo_assets.json` | 10 curated tickers (5 ETFs, 5 stocks). Assets only: no invented prices or forecasts. Load with `python manage.py loaddata demo_assets`. |
+| Demo data | `python manage.py load_demo_market_data` | Loads 10 curated assets, 506 frozen AAPL prices, runs the real model, and saves one forecast. Safe to rerun. |
 | Cached prices | `python manage.py import_prices <file.csv> --source <name>` | CSV header `ticker,date,close[,volume]`. Runs offline, skips unknown tickers and bad rows. |
 | Cast Explorer | `/markets/` | Search by ticker/name (`?q=`), filter by type (`?type=etf` or `stock`), empty states. |
 | Asset detail | `/markets/<TICKER>/` | Latest forecast with P10 to P90 range and freshness, or a clear "not computed" state; recent prices. |
 | JSON API | `/markets/api/assets/` and `/markets/api/forecasts/<TICKER>/` | GET only. Unknown ticker returns 404. A ticker with no forecast returns nulls and `"status": "unavailable"`; forecasts older than 7 days return `"status": "stale"`. |
 
-**Integration with Dhruv's model:** the `intelligence` app writes `Forecast` rows (`asset`, `as_of_date`, `horizon_trading_days`, `expected_return`, `p10_return`, `p90_return`, `probability_positive`, `model_version`, `data_source`). Field names still need final sign-off from Dhruv before merge.
+**Integration with Dhruv's model:** `load_demo_market_data` writes a real `Forecast` row (`asset`, `as_of_date`, `horizon_trading_days`, `expected_return`, `p10_return`, `p90_return`, `probability_positive`, `model_version`, `data_source`). Normal web requests only read saved results and never train a model while the user waits.
 
 ## Git workflow
 

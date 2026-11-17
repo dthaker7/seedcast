@@ -8,6 +8,7 @@ from ai_feasibility.experiment import (
     build_supervised_dataset,
     file_sha256,
     load_frozen_market_data,
+    predict_latest_return,
     run_experiment,
     time_ordered_split,
 )
@@ -132,3 +133,12 @@ class AIFeasibilityTests(TestCase):
         )
         for field in stable_fields:
             self.assertEqual(recorded[field], fresh[field], field)
+
+    def test_latest_forecast_is_deterministic_and_bounded(self):
+        first = predict_latest_return(DATASET)
+        second = predict_latest_return(DATASET)
+        self.assertEqual(first, second)
+        self.assertEqual(first.as_of_date, "2017-02-16")
+        self.assertLessEqual(first.p10_return, first.p90_return)
+        self.assertGreaterEqual(first.probability_positive, 0)
+        self.assertLessEqual(first.probability_positive, 1)

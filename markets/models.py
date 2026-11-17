@@ -33,10 +33,16 @@ class MarketAsset(models.Model):
 
     @property
     def latest_price(self):
+        cached = getattr(self, "_prefetched_objects_cache", {}).get("prices")
+        if cached is not None:
+            return cached[0] if cached else None
         return self.prices.order_by("-date").first()
 
     @property
     def latest_forecast(self):
+        cached = getattr(self, "_prefetched_objects_cache", {}).get("forecasts")
+        if cached is not None:
+            return cached[0] if cached else None
         return self.forecasts.order_by("-as_of_date", "-created_at").first()
 
 

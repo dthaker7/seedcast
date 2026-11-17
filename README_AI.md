@@ -51,6 +51,14 @@ Measured pipeline runtime was **0.0527 seconds** on the development machine. The
 
 The online request path reads saved forecasts. It does not retrain the model while a user waits.
 
+Run the complete Django demo integration with:
+
+```powershell
+python manage.py load_demo_market_data
+```
+
+The command loads the curated asset fixture, stores the 506 frozen AAPL price rows, trains the point and quantile gradient-boosting models, and saves the latest forecast through the Markets app's `Forecast` model. It is idempotent and safe to rerun. The latest frozen observation is February 16, 2017, so the UI correctly labels the forecast stale rather than presenting it as current market advice.
+
 ## Copilot plan
 
 The later copilot will receive only structured values that Seedcast already computed, such as surplus, risk comfort, allocation amounts, goal probability, and forecast ranges. It will explain those values and refuse requests that require unavailable data or personalized stock-picking advice.
@@ -68,7 +76,7 @@ The later copilot will receive only structured values that Seedcast already comp
 
 - This is one ticker over roughly two years, so it is feasibility evidence rather than a production-quality market model.
 - A single chronological holdout is weaker than the planned walk-forward evaluation.
-- The experiment predicts a point return only; P10-P90 quantile models and probability calibration remain future work.
+- The Django demo uses separate 10th- and 90th-percentile gradient-boosting models for its displayed range. Its probability-positive value is an empirical training-residual estimate, not a calibrated probability.
 - Market regimes after February 2017 are not represented.
 - Feature engineering is deliberately small and does not yet include RSI or MACD.
 - The experiment treats the supplied adjusted-close series as point-in-time input. A production pipeline must verify point-in-time corporate-action handling rather than recomputing historical adjustments with future information.

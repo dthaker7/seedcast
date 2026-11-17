@@ -90,6 +90,19 @@ class CastExplorerViewTests(TestCase):
         self.assertContains(response, "AAPL")
         self.assertNotContains(response, "Delisted Example")
 
+    def test_explorer_uses_prefetched_latest_records(self):
+        PriceBar.objects.create(
+            asset=self.spy, date=date(2026, 11, 12), close=Decimal("601.25")
+        )
+        Forecast.objects.create(
+            asset=self.spy,
+            as_of_date=date(2026, 11, 12),
+            expected_return=Decimal("0.01"),
+        )
+        with self.assertNumQueries(3):
+            response = self.client.get(reverse("markets:explorer"))
+        self.assertEqual(response.status_code, 200)
+
     def test_search_by_name_and_filter_by_type(self):
         response = self.client.get(reverse("markets:explorer"), {"q": "apple"})
         self.assertEqual(list(response.context["assets"]), [self.aapl])
@@ -205,3 +218,35 @@ class ImportPricesCommandTests(TestCase):
         self.assertEqual(PriceBar.objects.count(), 2)
         self.assertIn("2 created, 0 updated, 3 skipped", out.getvalue())
         self.assertIn("unknown ticker", err.getvalue())
+
+    def test_rejects_negative_volume(self):
+        make_asset()
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "prices.csv"
+            path.write_text(
+                "ticker,date,close,volume\nSPY,2026-11-12,601.25,-5\n",
+                encoding="utf-8",
+            )
+            out, err = StringIO(), StringIO()
+            call_command("import_prices", str(path), stdout=out, stderr=err)
+        self.assertFalse(PriceBar.objects.exists())
+        self.assertIn("volume must not be negative", err.getvalue())
+
+
+class LoadDemoMarketDataCommandTests(TestCase):
+    def test_loads_real_prices_and_model_forecast_idempotently(self):
+        out = StringIO()
+        call_command("load_demo_market_data", stdout=out)
+        self.assertEqual(MarketAsset.objects.count(), 10)
+        self.assertEqual(PriceBar.objects.filter(asset__ticker="AAPL").count(), 506)
+        forecast = Forecast.objects.get(asset__ticker="AAPL")
+        self.assertTrue(forecast.is_computed)
+        self.assertLessEqual(forecast.p10_return, forecast.p90_return)
+        self.assertGreaterEqual(forecast.probability_positive, 0)
+        self.assertLessEqual(forecast.probability_positive, 1)
+        self.assertEqual(forecast.model_version, "gbr-v1-frozen-aapl")
+        self.assertIn("Demo ready", out.getvalue())
+
+        call_command("load_demo_market_data", stdout=StringIO())
+        self.assertEqual(PriceBar.objects.filter(asset__ticker="AAPL").count(), 506)
+        self.assertEqual(Forecast.objects.filter(asset__ticker="AAPL").count(), 1)

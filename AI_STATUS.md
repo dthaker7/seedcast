@@ -20,7 +20,7 @@ This file is the shared handoff for AI-related work. Update it in the same pull 
 
 ## Interface contract for teammates
 
-The experiment is offline evidence for the first draft. It does not yet write Django models or serve user requests. The future integration boundary remains:
+The experiment remains offline training, but `python manage.py load_demo_market_data` now writes its real AAPL result through the Django `Forecast` model. Web requests read the saved result and never retrain the model:
 
 `frozen/cached prices -> feature builder -> trained model -> validated forecast record -> markets UI/API`
 
