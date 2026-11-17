@@ -22,7 +22,7 @@
 
 These GitHub account names reflect the invitations reported for this repository. If you use a different GitHub account, tell the repository owner.
 
-**Current baseline:** `main` contains authentication and a database-backed financial profile / monthly budget workflow. The full market and AI features are **not** on `main` yet. Dhruv also has local, uncommitted AI experiment changes: other teammates should not assume those changes are available on GitHub.
+**Current first-draft baseline:** `main` contains authentication, the database-backed money workflow, Seed Split rules, market models, demo assets, Cast Explorer, forecast JSON endpoints, and the reproducible AI feasibility experiment. The experiment remains offline evidence and does not yet write forecast rows during a Django request.
 
 ## 3. Clone the repository (first time only)
 
@@ -130,7 +130,7 @@ The Django app boundaries documented in `ROADMAP.md` are:
 - **Markets / Suriyavardhan:** assets, historical prices, saved forecasts, market browsing and chart/API endpoints. The Copilot receives *computed* data rather than inventing figures.
 - **Intelligence / Dhruv:** offline training, forecasting, model evaluation, simulations. Training does not run inside a normal web request.
 
-**Proposed forecast interface — agree on exact field names before coding:**
+**Agreed forecast interface:**
 
 ```json
 {
@@ -146,20 +146,20 @@ The Django app boundaries documented in `ROADMAP.md` are:
 }
 ```
 
-`null` means not yet computed; **never replace missing predictions with invented values**. Return units should be documented consistently (e.g., decimal `0.01` means 1%). Suriyavardhan and Dhruv must agree how to persist forecast timestamps, uncertainty, validation results and freshness. This JSON is a **planning contract**, not a claim that the endpoint exists.
+`null` means not yet computed; **never replace missing predictions with invented values**. Return units are decimals (for example, `0.01` means 1%). The Markets app implements this storage/API contract. The offline AI experiment does not yet populate these records; that Django integration remains final-project work.
 
 **Code ownership rules:** Keep your code inside your own Django app where practical. Don't modify teammates' models or shared files without coordinating. Do not import views/forms across apps; use services/models and agreed data interfaces. Resolve conflicting migrations together.
 
 ## 8. Monday first-draft checklist
 
-- [ ] All teammates have accepted invitations and confirmed write access.
-- [ ] Each teammate can clone their branch and run the Django app.
-- [ ] Each teammate can run the checks and tests successfully.
-- [ ] Parul: strengthen profile validation and cross-user isolation tests.
-- [ ] Suriyavardhan: implement and verify market models, demo data, explorer list and first JSON endpoint.
-- [ ] Dhruv: keep recorded feasibility experiment reproducible; publish it to **`feature/ai-goals` only** when ready for review.
-- [ ] Update `docs/ASSIGNMENT_CHECKLIST.md` only for requirements with actual evidence.
-- [ ] Confirm the exact submission instructions and date in Canvas.
+- [x] All teammates accepted invitations and confirmed write access.
+- [x] Each teammate worked through an assigned branch and the merged Django app runs successfully.
+- [x] The merged checks and all 50 tests pass successfully.
+- [x] Parul strengthened profile validation and cross-user isolation tests.
+- [x] Suriyavardhan implemented and verified market models, demo data, explorer pages, and JSON endpoints.
+- [x] Dhruv published the reproducible feasibility experiment through `feature/ai-goals`; it was reviewed and merged.
+- [x] `docs/ASSIGNMENT_CHECKLIST.md` reflects only requirements with repository evidence.
+- [x] The team confirmed the Monday, November 16 submission deadline in Canvas.
 
 The final project has additional requirements; see `ROADMAP.md` and `docs/EVALUATION_PLAN.md`. No one should claim unbuilt features or invented results are complete.
 

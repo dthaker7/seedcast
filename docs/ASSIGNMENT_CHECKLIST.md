@@ -45,8 +45,8 @@ Status values:
 | Views, templates, inheritance, URLs | In progress | All | Every feature slice includes routes and reusable templates |
 | Forms, validation, processing, errors | In progress | All | Profile, budget, allocation, goal, and copilot inputs tested |
 | Authentication, protected routes, user isolation | Complete | Parul | `money/tests.py` `UserIsolationTests`: other users' snapshots hidden, posted profile ids ignored, profile edits scoped to the signed-in user, anonymous users redirected to login |
-| Meaningful JSON/external API | In progress | Suriyavardhan | Forecast/chart JSON endpoint or cached yfinance integration |
-| Data-oriented feature | In progress | Suriyavardhan | Cast Explorer search/filtering and visualizations |
+| Meaningful JSON/external API | Complete for first draft | Suriyavardhan | Asset and forecast JSON endpoints, including unavailable/stale states and 404 handling |
+| Data-oriented feature | Complete for first draft | Suriyavardhan | Cast Explorer search, asset-type filtering, detail pages, and cached price display |
 
 ## Part 3: AI integration
 
@@ -63,11 +63,11 @@ Status values:
 
 | Requirement | Status | Owner | Definition of done |
 | --- | --- | --- | --- |
-| Relevant evaluation metrics | Planned | Suriyavardhan | Forecast calibration/error, baseline comparison, latency, workflow completion |
+| Relevant evaluation metrics | Complete for first draft | Dhruv | Actual MAE, RMSE, directional accuracy, R-squared, and runtime recorded against a baseline; broader final evaluation remains planned |
 | Five realistic tests | Planned | Suriyavardhan | Complete every field in `docs/EVALUATION_PLAN.md` using actual runs |
 | Two genuine failure cases | Planned | All | Document cause, impact, and improvement for observed failures |
 | One measured improvement | Planned | All | Before -> modification -> after evidence without fabricated results |
-| Automated application tests | In progress | All | CI passes; each pull request adds relevant tests |
+| Automated application tests | Complete for first draft | All | 50 money, markets, and AI tests pass on merged `main` and CI |
 
 ## Part 5: deployment and production readiness
 
@@ -83,9 +83,9 @@ Status values:
 
 | Requirement | Status | Owner | Definition of done |
 | --- | --- | --- | --- |
-| Code, migrations, AI code, requirements, gitignore, README | In progress | All | Update dependencies when AI/data code lands |
+| Code, migrations, AI code, requirements, gitignore, README | Complete for first draft | All | Merged implementation and pinned dependencies are present on `main` |
 | Complete README setup instructions | Complete for prototype | Shared | A clean clone can install, migrate, test, and run |
-| AI documentation | In progress | Dhruv | Update `README_AI.md` with actual model, results, limitations, safety |
+| AI documentation | Complete for first draft | Dhruv | `README_AI.md` records the model, preprocessing, workflow, actual results, limitations, and safety boundaries |
 | Readable, separated, non-duplicated code | In progress | All | Pull-request review and CI required before merge |
 | No exposed credentials or model weights | Complete for current repository | All | `.gitignore`; secret review before every merge |
 

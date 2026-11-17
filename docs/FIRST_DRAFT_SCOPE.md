@@ -18,7 +18,7 @@ Seedcast puts the user's money picture before the market. It combines an underst
 
 ## Three planned core features
 
-1. **Money Snapshot and Seed Split:** Collect a financial profile, calculate monthly surplus, and divide it into five understandable buckets based on risk comfort and emergency savings.
+1. **Money Snapshot and Seed Split:** Collect a financial profile, calculate monthly surplus, and divide it into three initial buckets—emergency savings, extra debt payoff, and paper-money practice—based on risk comfort and emergency savings.
 2. **Cast Explorer and Report Card:** Display cached 21-trading-day forecasts for a curated market universe with P10-P90 ranges, probability of a gain, confidence, drivers, and measured performance against a baseline.
 3. **Goal Simulator and grounded Copilot:** Simulate progress toward a saved goal and explain saved Seedcast calculations in plain language without inventing financial values or giving stock picks.
 
